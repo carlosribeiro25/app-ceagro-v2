@@ -46,6 +46,6 @@ server.get('/', () => {
 
 server.listen({ port: 3000, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running http://localhost:3000/ 🔥')
-  console.log('Documentation da Api runing http://localhost:3000/docs 📘 ')
 })
+
 

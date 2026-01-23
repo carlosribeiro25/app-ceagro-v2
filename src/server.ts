@@ -5,6 +5,8 @@ import {fastifySwaggerUi} from '@fastify/swagger-ui'
 import {fastifyCors} from '@fastify/cors'
 import { randomUUID } from 'node:crypto';
 import { router } from './routes/routeDefault.js';
+import { getProdutos } from './routes/get-produtos.js';
+import { postProdutos } from './routes/post-produto.js';
 
 
 const produtos = [
@@ -19,8 +21,8 @@ server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
 server.register(fastifyCors, {
-  origin: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  origin: '*'
+  // methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   // credentials: true,
 })
 
@@ -41,48 +43,14 @@ server.register(fastifySwaggerUi, {
 })
 
 server.register(router)
+server.register(getProdutos)
+server.register(postProdutos)
 
 
 server.get('/produtos', (request, reply) => {
   return {produtos, page: 1}
 })
 
-server.get('/produtos/:id', (request, reply) => {
-  type Params = {
-    id: string
-  }
-
-  const params = request.params as Params
-  const produtoId = params.id
-
-  const produto = produtos.find(produto => produto.id === produtoId)
-
-  if(produto) {
-    return { produto }
-  }
-
-})
-
-server.post('/produtos', (request, reply) =>{
-  type Body = {
-    name: string
-    qnt: number
-  }
-
-  const produtoId = randomUUID()
-  const body = request.body as  Body
-
-  const produtoName = body.name
-  const produtoQnt = body.qnt
-
-  if(!produtoName || !produtoQnt) {
-    return reply.status(404).send('Nome e quantidade são obrigatórios.')
-  }
-
-  produtos.push({id: produtoId, name: produtoName, qnt: produtoQnt })
-
-  reply.status(201).send({produtoId})
-})
 
 server.listen({ port: 3000, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running http://localhost:3000/ 🔥')

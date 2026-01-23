@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1768628054723,
-      "tag": "0000_sour_white_tiger",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1768673837063,
-      "tag": "0001_certain_ender_wiggin",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1769138274900,
-      "tag": "0002_easy_jack_flag",
+      "when": 1769140524437,
+      "tag": "0000_needy_dust",
       "breakpoints": true
     }
   ]

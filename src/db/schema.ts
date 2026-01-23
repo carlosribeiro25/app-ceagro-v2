@@ -11,7 +11,7 @@ export const users = pgTable("users", {
 export const produtos = pgTable("produtos", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar().notNull(),
-    qnt: varchar().notNull(),
-    D1: varchar().notNull(),
-    D2: varchar().notNull()
+    QNT: varchar().notNull(),
+    D1: integer().notNull(),
+    D2: integer().notNull()
 })

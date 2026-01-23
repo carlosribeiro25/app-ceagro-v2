@@ -1,23 +1,28 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import {db} from '../db/cliente.js';
 import {produtos} from '../db/schema.js'
+import z from "zod";
 
 export const postProdutos:FastifyPluginAsyncZod  = async (server) => {
-server.post('/produtos', async (request, reply) =>{
-  type Body = {
-    name: string 
-    QNT: string
-    D1: number
-    D2: number
-  }
 
-//   const produtoId = randomUUID()
-  const body = request.body as  Body
+server.post('/produtos',{
+    schema: {
+        tags: ['Produtos'],
+        additionalProperties: true,
+        body: z.object({
+            name: z.string().min(4, ' Nome do produto deve ter no mínimo 4 caracteres!'),
+            QNT: z.string(),
+            D1: z.coerce.number(),
+            D2: z.coerce.number(),    
+        })
+    }
 
-  const produtoName = body.name
-  const produtoQnt = body.QNT
-  const produtoD1 = body.D1
-  const produtoD2 = body.D2
+}, async (request, reply) =>{
+  
+  const produtoName = request.body.name
+  const produtoQnt = request.body.QNT
+  const produtoD1 = request.body.D1
+  const produtoD2 = request.body.D2
 
   try{
     const result = await db
@@ -29,7 +34,7 @@ server.post('/produtos', async (request, reply) =>{
 
   } catch(error) {
     console.error('Erro ao cadastrar produto:', error)
-    return reply.status(500).send({error: 'Erro ao cadastrar produto', details: error instanceof Error ? error.message : String(error)})
+    return reply.status(400).send({error: 'Erro ao cadastrar produto', details: error instanceof Error ? error.message : String(error)})
   }
 })
 }

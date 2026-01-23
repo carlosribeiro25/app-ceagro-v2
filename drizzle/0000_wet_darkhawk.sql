@@ -3,7 +3,8 @@ CREATE TABLE "produtos" (
 	"name" varchar NOT NULL,
 	"QNT" varchar NOT NULL,
 	"D1" integer NOT NULL,
-	"D2" integer NOT NULL
+	"D2" integer NOT NULL,
+	CONSTRAINT "name_length_check" CHECK (length("produtos"."name") >= 4)
 );
 --> statement-breakpoint
 CREATE TABLE "users" (

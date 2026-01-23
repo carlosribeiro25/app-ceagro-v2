@@ -1,5 +1,5 @@
 {
-  "id": "60f37414-f7b1-40a5-9391-18e93870946c",
+  "id": "81022ee8-f187-4b39-a7c4-14bd474ee6cf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -55,7 +55,12 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
-      "checkConstraints": {},
+      "checkConstraints": {
+        "name_length_check": {
+          "name": "name_length_check",
+          "value": "length(\"produtos\".\"name\") >= 4"
+        }
+      },
       "isRLSEnabled": false
     },
     "public.users": {

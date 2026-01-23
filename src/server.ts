@@ -3,17 +3,13 @@ import {serializerCompiler,validatorCompiler,jsonSchemaTransform, type ZodTypePr
 import { fastifySwagger} from '@fastify/swagger'
 import {fastifySwaggerUi} from '@fastify/swagger-ui'
 import {fastifyCors} from '@fastify/cors'
-import { randomUUID } from 'node:crypto';
 import { router } from './routes/routeDefault.js';
-import { getProdutos } from './routes/get-produtos.js';
+import { getProdutosById } from './routes/get-produtos-byID.js';
 import { postProdutos } from './routes/post-produto.js';
+import { patchProdutos } from './routes/patch-produtos.js';
+import { putProdutos } from './routes/put-produtos.js';
 
 
-const produtos = [
-{ id: '1', name: 'Banana',qnt: 202 },
-{ id: '2',name: 'Abacaxi', qnt: 22 },
-{ id: '3',name: 'Acerola', qnt: 20},
-]
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -43,13 +39,12 @@ server.register(fastifySwaggerUi, {
 })
 
 server.register(router)
-server.register(getProdutos)
+server.register(getProdutosById)
 server.register(postProdutos)
+server.register(patchProdutos)
+server.register(putProdutos)
 
 
-server.get('/produtos', (request, reply) => {
-  return {produtos, page: 1}
-})
 
 
 server.listen({ port: 3000, host: '0.0.0.0' }).then(() => {

@@ -4,7 +4,7 @@ import { produtos } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 
 
-export async function getProdutos(server:FastifyInstance) {
+export async function getProdutosById(server:FastifyInstance) {
     server.get('/produtos/:id', async (request, reply) => {
   type Params = {
     id: Number

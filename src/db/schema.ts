@@ -1,4 +1,5 @@
-import { integer, pgTable, varchar } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
+import { check, integer, pgTable, varchar } from 'drizzle-orm/pg-core';
 
 export const users = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -6,7 +7,8 @@ export const users = pgTable("users", {
     email: varchar().notNull().unique(),
     telefone: varchar().notNull(),
     password: varchar().notNull(),
-})
+}
+)
 
 export const produtos = pgTable("produtos", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -14,4 +16,6 @@ export const produtos = pgTable("produtos", {
     QNT: varchar().notNull(),
     D1: integer().notNull(),
     D2: integer().notNull()
-})
+}, (table) => ({
+    nameLengthCheck: check('name_length_check', sql`length(${table.name}) >= 4`),
+}))

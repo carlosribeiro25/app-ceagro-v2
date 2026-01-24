@@ -8,8 +8,8 @@ import { getProdutosById } from './routes/get-produtos-byID.js';
 import { postProdutos } from './routes/post-produto.js';
 import { patchProdutos } from './routes/patch-produtos.js';
 import { putProdutos } from './routes/put-produtos.js';
-
-
+import { deleteProdutos } from './routes/delete-produtos.js';
+import { listarProdutos } from './routes/get-produtos.js'
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -43,6 +43,8 @@ server.register(getProdutosById)
 server.register(postProdutos)
 server.register(patchProdutos)
 server.register(putProdutos)
+server.register(deleteProdutos)
+server.register(listarProdutos)
 
 
 

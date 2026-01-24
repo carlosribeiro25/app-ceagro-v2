@@ -5,33 +5,33 @@ import { eq } from "drizzle-orm";
 import z from "zod";
 
 
-export async function getProdutosById(server:FastifyInstance) {
-  server.get('/produtos/:id',{
+export async function getProdutosById(server: FastifyInstance) {
+  server.get('/produtos/:id', {
     schema: {
       tags: ['Produtos'],
       params: z.object({
         id: z.coerce.number().int()
-        }),
-      }
-    },async (request, reply) => {
-  
+      }),
+    }
+  }, async (request, reply) => {
+
     type Params = {
-    id: Number
-  }
+      id: Number
+    }
 
-  const params= request.params as Params 
-  const produtoId = Number(params.id)
+    const params = request.params as Params
+    const produtoId = Number(params.id)
 
-  const produto = await db
-    .select()
-    .from(produtos)
-    .where(eq(produtos.id, produtoId))
+    const produto = await db
+      .select()
+      .from(produtos)
+      .where(eq(produtos.id, produtoId))
 
-  if(produto.length > 0) {
-    return { produto: produto[0] }
-  }
+    if (produto.length > 0) {
+      return { produto: produto[0] }
+    }
 
-  return reply.status(404).send( { error: "Produto não encontrado"})
-})
+    return reply.status(404).send({ error: "Produto não encontrado" })
+  })
 }
 

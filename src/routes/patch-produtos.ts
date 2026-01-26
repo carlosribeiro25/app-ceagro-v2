@@ -19,7 +19,7 @@ export const patchProdutos: FastifyPluginAsyncZod = async (server) => {
                 QNT: z.string(),
                 D1: z.coerce.number(),
                 D2: z.coerce.number(),
-            })
+            })            
         }
 
     }, async (request, reply) => {

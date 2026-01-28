@@ -2,6 +2,7 @@ import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { db } from '../db/cliente.js';
 import { produtos } from '../db/schema.js'
 import z from "zod";
+import { error } from "console";
 
 export const postProdutos: FastifyPluginAsyncZod = async (server) => {
 
@@ -14,7 +15,11 @@ export const postProdutos: FastifyPluginAsyncZod = async (server) => {
         QNT: z.string(),
         D1: z.coerce.number(),
         D2: z.coerce.number(),
-      })
+      }),
+      response: {
+        201: z.object({ produtoId: z.int()}).describe('Produto criado com sucesso!'),
+        400: z.object({ error: z.string()}).describe('Erro ao cadastrar produto!')
+      }
     }
 
   }, async (request, reply) => {
@@ -34,7 +39,7 @@ export const postProdutos: FastifyPluginAsyncZod = async (server) => {
 
     } catch (error) {
       console.error('Erro ao cadastrar produto:', error)
-      return reply.status(400).send({ error: 'Erro ao cadastrar produto', details: error instanceof Error ? error.message : String(error) })
+      return reply.status(400).send({ error: 'Erro ao cadastrar produto' })
     }
   })
 }

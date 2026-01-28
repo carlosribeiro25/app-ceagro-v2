@@ -3,7 +3,7 @@ import { db } from '../db/cliente.js';
 import { produtos } from '../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
-import { error } from "console";
+
 
 export const patchProdutos: FastifyPluginAsyncZod = async (server) => {
 
@@ -19,7 +19,13 @@ export const patchProdutos: FastifyPluginAsyncZod = async (server) => {
                 QNT: z.string(),
                 D1: z.coerce.number(),
                 D2: z.coerce.number(),
-            })            
+            }),
+            response: {
+               200: z.object({message: z.string(),
+                produtos: z.any()
+               }).describe('Produto atualizado com sucesso!'),
+               404: z.object({error: z.string()}).describe('Produto não encontrado!')
+            }            
         }
 
     }, async (request, reply) => {
@@ -34,11 +40,7 @@ export const patchProdutos: FastifyPluginAsyncZod = async (server) => {
             .returning();
 
         if (!updated.length) {
-            console.log(error)
-            return reply.status(404).send({
-                error: `Curso não encontrado`,
-                details: error instanceof Error ? error.message : String(error)
-            })
+            return reply.status(404).send({ error: `Curso não encontrado` })
         }
         return reply.status(200).send({ message: "Curso atualizado com sucesso", produtos: updated[0] })
 

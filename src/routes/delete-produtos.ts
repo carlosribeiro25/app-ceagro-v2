@@ -11,7 +11,11 @@ export const deleteProdutos: FastifyPluginAsyncZod = async (server) => {
       tags: ['Produtos'],
       params: z.object({
         id: z.coerce.number()
-      })
+      }),
+      response: {
+        200: z.object({ message: z.string()}).describe('Produto Deletado com sucesso!'),
+        404:z.object({ error: z.string()}).describe('Produto não encontrado!')
+      }
     }
 
   }, async (request, reply) => {
@@ -24,9 +28,9 @@ export const deleteProdutos: FastifyPluginAsyncZod = async (server) => {
       .returning();
 
     if (result.length > 0) {
-      return reply.status(200).send({ message: `Curso Deletado com sucesso` })
+      return reply.status(200).send({message:  `Curso Deletado com sucesso` })
     } else {
-      return reply.status(404).send({ error: `Curso não encontrado` })
+      return reply.status(404).send({ error: `Produto não encontrado` })
     }
 
   })

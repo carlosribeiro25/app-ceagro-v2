@@ -1,5 +1,5 @@
 {
-  "id": "81022ee8-f187-4b39-a7c4-14bd474ee6cf",
+  "id": "3221cdb5-fdf2-43c9-852e-238499425e42",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -29,25 +29,25 @@
           "name": "name",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "QNT": {
           "name": "QNT",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "D1": {
           "name": "D1",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "D2": {
           "name": "D2",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {},

@@ -12,10 +12,10 @@ export const users = pgTable("users", {
 
 export const produtos = pgTable("produtos", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    name: varchar().notNull(),
-    QNT: varchar().notNull(),
-    D1: integer().notNull(),
-    D2: integer().notNull()
+    name: varchar(),
+    QNT: varchar(),
+    D1: integer(),
+    D2: integer()
 }, (table) => ({
     nameLengthCheck: check('name_length_check', sql`length(${table.name}) >= 4`),
 }))

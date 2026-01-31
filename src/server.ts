@@ -10,6 +10,7 @@ import { patchProdutos } from './routes/patch-produtos.js';
 import { putProdutos } from './routes/put-produtos.js';
 import { deleteProdutos } from './routes/delete-produtos.js';
 import { listarProdutos } from './routes/get-produtos.js'
+import { createUser } from './routes/createUser.js';
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -45,6 +46,7 @@ server.register(patchProdutos)
 server.register(putProdutos)
 server.register(deleteProdutos)
 server.register(listarProdutos)
+server.register(createUser)
 
 server.listen({ port: 3000, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running http://localhost:3000/ 🔥')

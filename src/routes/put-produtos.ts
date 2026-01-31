@@ -19,7 +19,12 @@ export const putProdutos: FastifyPluginAsyncZod = async (server) => {
                 QNT: z.string(),
                 D1: z.coerce.number(),
                 D2: z.coerce.number(),
-            })
+            }),
+            response: {
+                200: z.object({ message: z.string(),
+                    produtos: z.any()}).describe("Produto atualizado com sucesso!"),   
+                404: z.object({ error: z.string()}).describe("Produto não encontrado!"),
+            }
         }
 
     }, async (request, reply) => {
@@ -35,9 +40,7 @@ export const putProdutos: FastifyPluginAsyncZod = async (server) => {
 
         if (!updated.length) {
             console.log(error)
-            return reply.status(404).send({
-                error: `Curso não encontrado`,
-                details: error instanceof Error ? error.message : String(error)
+            return reply.status(404).send({ error: `Curso não encontrado`,    
             })
         }
         return reply.status(200).send({ message: "Curso atualizado com sucesso", produtos: updated[0] })

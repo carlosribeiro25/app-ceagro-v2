@@ -4,7 +4,6 @@ import { produtos } from '../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
 
-
 export const patchProdutos: FastifyPluginAsyncZod = async (server) => {
 
     server.patch('/produtos/:id', {
@@ -43,7 +42,6 @@ export const patchProdutos: FastifyPluginAsyncZod = async (server) => {
             return reply.status(404).send({ error: `Curso não encontrado` })
         }
         return reply.status(200).send({ message: "Curso atualizado com sucesso", produtos: updated[0] })
-
     })
 }
 

@@ -28,9 +28,9 @@ export const deleteProdutos: FastifyPluginAsyncZod = async (server) => {
       .returning();
 
     if (result.length > 0) {
-      return reply.status(200).send({message:  `Curso Deletado com sucesso` })
+      return reply.status(200).send({message:  `Produto Deletado com sucesso.` })
     } else {
-      return reply.status(404).send({ error: `Produto não encontrado` })
+      return reply.status(404).send({ error: `Produto não encontrado.` })
     }
 
   })

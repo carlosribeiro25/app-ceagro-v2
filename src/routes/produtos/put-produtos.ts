@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { db } from '../db/cliente.js';
-import { produtos } from '../db/schema.js'
+import { db } from '../../db/cliente.js';
+import { produtos } from '../../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
 import { error } from "console";
@@ -40,10 +40,10 @@ export const putProdutos: FastifyPluginAsyncZod = async (server) => {
 
         if (!updated.length) {
             console.log(error)
-            return reply.status(404).send({ error: `Curso não encontrado`,    
+            return reply.status(404).send({ error: `Produto não encontrado`,    
             })
         }
-        return reply.status(200).send({ message: "Curso atualizado com sucesso", produtos: updated[0] })
+        return reply.status(200).send({ message: "Produto atualizado com sucesso", produtos: updated[0] })
 
     })
 }

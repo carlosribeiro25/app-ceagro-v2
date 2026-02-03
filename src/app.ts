@@ -4,17 +4,17 @@ import { fastifySwagger } from '@fastify/swagger'
 import { fastifySwaggerUi } from '@fastify/swagger-ui'
 import { fastifyCors } from '@fastify/cors'
 import { router } from './routes/routeDefault.js';
-import { getProdutosById } from './routes/get-produtos-byID.js';
-import { postProdutos } from './routes/post-produto.js';
-import { patchProdutos } from './routes/patch-produtos.js';
-import { putProdutos } from './routes/put-produtos.js';
-import { deleteProdutos } from './routes/delete-produtos.js';
-import { listarProdutos } from './routes/get-produtos.js'
-import { createUser } from './routes/createUser.js';
-import { deleteUsers } from './routes/deleteUser.js';
-import { updateUser } from './routes/apdateUser.js';
-import { listarUsers } from './routes/getUsers.js';
-import { getUsuariosById } from './routes/getUsersById.js';
+import { getProdutosById } from './routes/produtos/get-produtos-byID.js';
+import { postProdutos } from './routes/produtos/post-produto.js';
+import { patchProdutos } from './routes/produtos/patch-produtos.js';
+import { putProdutos } from './routes/produtos/put-produtos.js';
+import { deleteProdutos } from './routes/produtos/delete-produtos.js';
+import { listarProdutos } from './routes/produtos/get-produtos.js'
+import { createUser } from './routes/usuarios/createUser.js';
+import { deleteUsers } from './routes/usuarios/deleteUser.js';
+import { updateUser } from './routes/usuarios/apdateUser.js';
+import { listarUsers } from './routes/usuarios/getUsers.js';
+import { getUsuariosById } from './routes/usuarios/getUsersById.js';
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 

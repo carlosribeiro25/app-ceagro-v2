@@ -13,7 +13,7 @@ import { listarProdutos } from './routes/produtos/get-produtos.js'
 import { createUser } from './routes/usuarios/createUser.js';
 import { deleteUsers } from './routes/usuarios/deleteUser.js';
 import { updateUser } from './routes/usuarios/apdateUser.js';
-import { listarUsers } from './routes/getUsers.js';
+import { listarUsers } from './routes/usuarios/getUsers.js';
 import { getUsuariosById } from './routes/usuarios/getUsersById.js';
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()

@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { db } from '../db/cliente.js';
-import { users } from '../db/schema.js'
+import { db } from '../../db/cliente.js';
+import { users } from '../../db/schema.js'
 
 export const listarUsers: FastifyPluginAsyncZod = async (server) => {
 

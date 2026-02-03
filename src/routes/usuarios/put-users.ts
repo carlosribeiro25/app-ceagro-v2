@@ -4,9 +4,9 @@ import { users } from '../../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
 
-export const updateUser: FastifyPluginAsyncZod = async (server) => {
+export const putUsers: FastifyPluginAsyncZod = async (server) => {
 
-    server.patch('/usuarios/:id', {
+    server.put('/usuarios/:id', {
         schema: {
             tags: ['Usuários'],
             params: z.object({

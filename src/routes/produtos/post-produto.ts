@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { db } from '../db/cliente.js';
-import { produtos } from '../db/schema.js'
+import { db } from '../../db/cliente.js';
+import { produtos } from '../../db/schema.js'
 import z from "zod";
 
 export const postProdutos: FastifyPluginAsyncZod = async (server) => {

@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { db } from '../db/cliente.js';
-import { users } from '../db/schema.js'
+import { db } from '../../db/cliente.js';
+import { users } from '../../db/schema.js'
 import z from "zod";
 
 export const createUser: FastifyPluginAsyncZod = async (server) => {

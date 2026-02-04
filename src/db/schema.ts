@@ -7,7 +7,9 @@ export const users = pgTable("users", {
     email: varchar().notNull().unique(),
     telefone: varchar().notNull(),
     password: varchar().notNull(),
-}
+}, (table) => ({
+    nameLengthCheck: check('users_name_length_check', sql`length(${table.name}) >= 4`),
+})
 )
 
 export const produtos = pgTable("produtos", {
@@ -17,5 +19,5 @@ export const produtos = pgTable("produtos", {
     D1: integer(),
     D2: integer()
 }, (table) => ({
-    nameLengthCheck: check('name_length_check', sql`length(${table.name}) >= 4`),
+    nameLengthCheck: check('products_name_length_check', sql`length(${table.name}) >= 4`),
 }))

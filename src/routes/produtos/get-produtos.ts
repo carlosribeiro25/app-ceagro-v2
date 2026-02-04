@@ -15,7 +15,7 @@ export const listarProdutos: FastifyPluginAsyncZod = async (server) => {
                 .select()
                 .from(produtos)
        
-        if(allProdutos.length === 0){
+        if(!allProdutos || allProdutos.length === 0){
              return reply.status(404).send({ error: `Produtos não encontrados`})
         }
         return reply.status(200).send({ produtos: allProdutos }

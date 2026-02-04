@@ -33,7 +33,6 @@ export async function getProdutosById(server: FastifyInstance) {
     const params = request.params as Params
     const produtoId = Number(params.id)
 
-    
     const produto = await db
       .select()
       .from(produtos)

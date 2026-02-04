@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch --env-file .env src/server.ts",
-    "db:seed" : "tsx --env-file .env src/db/seed.ts",
+    "db:seed": "tsx --env-file .env src/db/seed.ts",
     "start": "node dist/server.js",
     "format": "biome format --write",
     "db:generate": "drizzle-kit generate",
@@ -25,6 +25,7 @@
     "@fastify/swagger-ui": "^5.2.4",
     "@neondatabase/serverless": "^1.0.2",
     "@scalar/fastify-api-reference": "^1.43.5",
+    "argon2": "^0.44.0",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.45.1",
     "fastify": "^5.7.0",

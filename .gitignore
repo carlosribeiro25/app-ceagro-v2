@@ -3,3 +3,5 @@ node_modules
 requisicoes.http
 tests/
 vitest.config.ts
+factory/
+coverage/

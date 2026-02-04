@@ -16,6 +16,7 @@ import { updateUser } from './routes/usuarios/apdateUser.js';
 import { listarUsers } from './routes/usuarios/getUsers.js';
 import { getUsuariosById } from './routes/usuarios/getUsersById.js';
 import { putUsers } from './routes/usuarios/put-users.js';
+import { loginRoute } from './routes/login.js';
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -57,6 +58,7 @@ server.register(updateUser)
 server.register(listarUsers)
 server.register(getUsuariosById)
 server.register(putUsers)
+server.register(loginRoute)
 
 
 export { server }

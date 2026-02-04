@@ -1,5 +1,10 @@
 import { sql } from 'drizzle-orm';
-import { check, integer, pgTable, varchar } from 'drizzle-orm/pg-core';
+import { check, integer, pgTable, varchar, pgEnum } from 'drizzle-orm/pg-core';
+
+export const userRole = pgEnum('user_role', [
+    'Client',
+    'Manager'
+])
 
 export const users = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -7,6 +12,7 @@ export const users = pgTable("users", {
     email: varchar().notNull().unique(),
     telefone: varchar().notNull(),
     password: varchar().notNull(),
+    role: userRole().notNull().default('Client')
 }, (table) => ({
     nameLengthCheck: check('users_name_length_check', sql`length(${table.name}) >= 4`),
 })

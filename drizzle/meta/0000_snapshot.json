@@ -1,5 +1,5 @@
 {
-  "id": "3221cdb5-fdf2-43c9-852e-238499425e42",
+  "id": "b4eefe85-ab9c-4174-aa7d-529806aea299",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -56,8 +56,8 @@
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {
-        "name_length_check": {
-          "name": "name_length_check",
+        "products_name_length_check": {
+          "name": "products_name_length_check",
           "value": "length(\"produtos\".\"name\") >= 4"
         }
       },
@@ -107,6 +107,14 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "user_role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Client'"
         }
       },
       "indexes": {},
@@ -122,11 +130,25 @@
         }
       },
       "policies": {},
-      "checkConstraints": {},
+      "checkConstraints": {
+        "users_name_length_check": {
+          "name": "users_name_length_check",
+          "value": "length(\"users\".\"name\") >= 4"
+        }
+      },
       "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.user_role": {
+      "name": "user_role",
+      "schema": "public",
+      "values": [
+        "Client",
+        "Manager"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},

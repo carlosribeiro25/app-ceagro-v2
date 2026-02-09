@@ -1,10 +1,16 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { db } from '../../db/cliente.js';
 import { produtos } from '../../db/schema.js'
+import { checkUseRole } from "../hooks/check_user_role.js";
+import { checkRequestJWT } from "../hooks/check_request_jwt.js";
 
 export const listarProdutos: FastifyPluginAsyncZod = async (server) => {
 
     server.get('/produtos', {
+          preHandler: [
+                checkRequestJWT,
+                checkUseRole('Manager')
+                ],
         schema: {
             tags: ['Produtos'],
             summary: 'Essa rota lista todos os Produtos.',

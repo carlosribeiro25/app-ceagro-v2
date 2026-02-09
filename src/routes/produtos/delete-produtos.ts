@@ -3,10 +3,16 @@ import { db } from '../../db/cliente.js';
 import { produtos } from '../../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
+import { checkRequestJWT } from "../hooks/check_request_jwt.js";
+import { checkUseRole } from "../hooks/check_user_role.js";
 
 export const deleteProdutos: FastifyPluginAsyncZod = async (server) => {
 
   server.delete('/produtos/:id', {
+    preHandler: [
+                checkRequestJWT,
+                checkUseRole('Manager')
+               ],
     schema: {
       tags: ['Produtos'],
       params: z.object({

@@ -13,7 +13,7 @@ export const createUser: FastifyPluginAsyncZod = async (server) => {
         name: z.string(),
         telefone: z.string(),
         email: z.string(),
-        password: z.string(),
+        password: z.string()
       }),
       response: {
         201: z.object({ userId: z.int()}).describe('Usuario criado com sucesso!'),
@@ -31,7 +31,7 @@ export const createUser: FastifyPluginAsyncZod = async (server) => {
       const result = await db
         .insert(users)
         .values({ name: nameUser, email: emailUser, telefone: telefoneUser, password: passwordUser })
-        .returning()
+        .returning({ id: users.id })
 
       return reply.status(201).send({ userId: result[0].id })
 

@@ -36,12 +36,12 @@ export const putUsers: FastifyPluginAsyncZod = async (server) => {
             .update(users)
             .set(body)
             .where(eq(users.id, id))
-            .returning();
+                .returning({ id: users.id, name: users.name, email: users.email });
 
         if (!updated.length) {
             return reply.status(404).send({ error: `Usuario não encontrado` })
         }
-        return reply.status(200).send({ message: "Usuario atualizado com sucesso", users: updated[0] })
+            return reply.status(200).send({ message: "Usuario atualizado com sucesso", users: updated[0] });
     })
 }
 

@@ -4,10 +4,16 @@ import { produtos } from '../../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
 import { error } from "console";
+import { checkUseRole } from "../hooks/check_user_role.js";
+import { checkRequestJWT } from "../hooks/check_request_jwt.js";
 
 export const putProdutos: FastifyPluginAsyncZod = async (server) => {
 
     server.put('/produtos/:id', {
+        preHandler: [
+            checkRequestJWT,
+            checkUseRole('Manager'),
+            ],
         schema: {
             tags: ['Produtos'],
             params: z.object({
@@ -17,8 +23,8 @@ export const putProdutos: FastifyPluginAsyncZod = async (server) => {
             body: z.object({
                 name: z.string().min(4, 'nome do produto deve ter no mínimo 4 caracteres!'),
                 QNT: z.string(),
-                D1: z.coerce.number(),
-                D2: z.coerce.number(),
+                D1: z.string(),
+                D2: z.string(),
             }),
             response: {
                 200: z.object({ message: z.string(),
@@ -32,11 +38,11 @@ export const putProdutos: FastifyPluginAsyncZod = async (server) => {
         const { id } = request.params
         const body = request.body
 
-        const updated = await db
-            .update(produtos)
-            .set(body)
-            .where(eq(produtos.id, id))
-            .returning();
+            const updated = await db
+                .update(produtos)
+                .set(body)
+                .where(eq(produtos.id, id))
+                .returning({ id: produtos.id, name: produtos.name, QNT: produtos.QNT, D1: produtos.D1, D2: produtos.D2 });
 
         if (!updated.length) {
             console.log(error)

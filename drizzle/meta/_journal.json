@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1770183842171,
-      "tag": "0000_far_nemesis",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1770403750518,
-      "tag": "0001_overconfident_lady_vermin",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1770567976316,
-      "tag": "0002_yellow_ser_duncan",
+      "when": 1770619386403,
+      "tag": "0000_demonic_moondragon",
       "breakpoints": true
     }
   ]

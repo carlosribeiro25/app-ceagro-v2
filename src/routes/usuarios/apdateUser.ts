@@ -3,10 +3,16 @@ import { db } from '../../db/cliente.js';
 import { users } from '../../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
+import { checkRequestJWT } from "../hooks/check_request_jwt.js";
+import { checkUseRole } from "../hooks/check_user_role.js";
 
 export const updateUser: FastifyPluginAsyncZod = async (server) => {
 
     server.patch('/usuarios/:id', {
+        preHandler: [
+            checkRequestJWT,
+            checkUseRole('Manager')
+        ],
         schema: {
             tags: ['Usuários'],
             params: z.object({
@@ -18,13 +24,16 @@ export const updateUser: FastifyPluginAsyncZod = async (server) => {
                 email: z.string(),
                 telefone: z.string(),
                 password: z.string(),
+                role: z.enum(['Manager', 'Client']).optional(),
+                
             }),
             response: {
-               200: z.object({message: z.string(),
-                users: z.any()
-               }).describe('Usuario atualizado com sucesso!'),
-               404: z.object({error: z.string()}).describe('Usuário não encontrado!')
-            }            
+                200: z.object({
+                    message: z.string(),
+                    users: z.any()
+                }).describe('Usuario atualizado com sucesso!'),
+                404: z.object({ error: z.string() }).describe('Usuário não encontrado!')
+            }
         }
 
     }, async (request, reply) => {

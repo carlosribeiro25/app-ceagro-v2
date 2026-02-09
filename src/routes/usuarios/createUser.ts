@@ -2,10 +2,17 @@ import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { db } from '../../db/cliente.js';
 import { users } from '../../db/schema.js'
 import z from "zod";
+import { checkRequestJWT } from "../hooks/check_request_jwt.js";
+import { checkUseRole } from "../hooks/check_user_role.js";
+import { hash } from "argon2";
 
 export const createUser: FastifyPluginAsyncZod = async (server) => {
 
   server.post('/usuarios', {
+      preHandler: [
+         checkRequestJWT,
+         checkUseRole('Manager')
+          ],
     schema: {
       tags: ['Usuários'],
       additionalProperties: true,
@@ -13,7 +20,9 @@ export const createUser: FastifyPluginAsyncZod = async (server) => {
         name: z.string(),
         telefone: z.string(),
         email: z.string(),
-        password: z.string()
+        password: z.string(),
+        role: z.enum(['Manager', 'Client']).optional().default('Client'),
+       
       }),
       response: {
         201: z.object({ userId: z.int()}).describe('Usuario criado com sucesso!'),
@@ -22,15 +31,15 @@ export const createUser: FastifyPluginAsyncZod = async (server) => {
     }
 
   }, async (request, reply) => {
-    const nameUser = request.body.name
-    const emailUser = request.body.email
-    const telefoneUser = request.body.telefone
-    const passwordUser = request.body.password
 
+    const {name, email, telefone, password, role} = request.body
+    
     try {
+      const hashedPassword = await hash(password)
+
       const result = await db
         .insert(users)
-        .values({ name: nameUser, email: emailUser, telefone: telefoneUser, password: passwordUser })
+        .values({ name, email, telefone, password: hashedPassword, role })
         .returning({ id: users.id })
 
       return reply.status(201).send({ userId: result[0].id })

@@ -3,9 +3,15 @@ import { db } from '../../db/cliente.js';
 import { users } from '../../db/schema.js'
 import { eq } from "drizzle-orm";
 import z from "zod";
+import { checkRequestJWT } from "../hooks/check_request_jwt.js";
+import { checkUseRole } from "../hooks/check_user_role.js";
 
 export async function getUsuariosById(server: FastifyInstance) {
   server.get('/usuarios/:id', {
+    preHandler: [
+      checkRequestJWT,
+      checkUseRole('Manager')
+    ],
     schema: {
       tags: ['Usuarios'],
       params: z.object({
@@ -19,9 +25,10 @@ export async function getUsuariosById(server: FastifyInstance) {
             email: z.string(),
             telefone: z.string(),
             password: z.string(),
+            role: z.enum(['Manager', 'Client']).optional()
           })
         }),
-        404: z.object({ error: z.string()}).describe('Usuário não encontrado!')
+        404: z.object({ error: z.string() }).describe('Usuário não encontrado!')
       }
     }
   }, async (request, reply) => {
@@ -32,12 +39,12 @@ export async function getUsuariosById(server: FastifyInstance) {
 
     const params = request.params as Params
     const userId = Number(params.id)
-    
+
     const result = await db
       .select()
       .from(users)
       .where(eq(users.id, userId))
-      
+
     if (result.length > 0) {
       return { users: result[0] }
     }

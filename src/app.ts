@@ -68,8 +68,6 @@ server.register(fastifySwaggerUi, {
   staticCSP: true
 })
 
-
-
 server.register(router)
 server.register(getProdutosById)
 server.register(postProdutos)

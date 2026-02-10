@@ -1,39 +1,42 @@
-# syntax = docker/dockerfile:1
+# Dockerfile
+FROM node:20-slim AS base
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=22.21.1
-FROM node:${NODE_VERSION}-slim AS base
-
-LABEL fly_launch_runtime="Node.js"
-
-# Node.js app lives here
+# Install dependencies only when needed
+FROM base AS deps
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
+# Copy package files
+COPY package*.json ./
 
-
-# Throw-away build stage to reduce size of final image
-FROM base AS build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
-
-# Install node modules
-COPY package-lock.json package.json ./
+# Install dependencies
 RUN npm ci
 
-# Copy application code
+# Build the app
+FROM base AS builder
+WORKDIR /app
+
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy source code
 COPY . .
 
+# Build TypeScript
+RUN npm run build
 
-# Final stage for app image
-FROM base
+# Production image
+FROM base AS runner
+WORKDIR /app
 
-# Copy built application
-COPY --from=build /app /app
+ENV NODE_ENV=production
 
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD [ "npm", "run", "start" ]
+# Copy built files and node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+
+# Expose port
+EXPOSE 8080
+
+# Start the app
+CMD ["npm", "start"]

@@ -10,3 +10,10 @@ export const router: FastifyPluginAsyncZod = async (server) => {
   })
 }
 
+export const routerDefaul: FastifyPluginAsyncZod = async (server) => {
+  server.get('/', async (request, reply) => {
+    return reply.status(200).send('<h1> Seja bem-vindo</h1>')
+  })
+}
+
+

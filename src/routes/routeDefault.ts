@@ -6,13 +6,13 @@ export const router: FastifyPluginAsyncZod = async (server) => {
       tags: ['Produtos'],
     }
   }, async (request, reply) => {
-    return reply.status(200).send(`<h>Nossa API está em produção!! </h1>`)
+    return reply.status(200).send(`Nossa API está em produção!!`)
   })
 }
 
 export const routerDefault: FastifyPluginAsyncZod = async (server) => {
   server.get('/', async (request, reply) => {
-    return reply.status(200).send(`<h1> Seja bem-vindo </h1>`)
+    return reply.status(200).send(`Seja bem-vindo !`)
   })
 }
 

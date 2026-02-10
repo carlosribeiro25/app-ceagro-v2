@@ -29,15 +29,13 @@ export const postProdutos: FastifyPluginAsyncZod = async (server) => {
 
   }, async (request, reply) => {
 
-    const produtoName = request.body.name
-    const produtoQnt = request.body.QNT
-    const produtoD1 = request.body.D1
-    const produtoD2 = request.body.D2
+
+    const {name, QNT, D1, D2} = request.body
 
     try {
       const result = await db
         .insert(produtos)
-        .values({ name: produtoName, QNT: produtoQnt, D1: produtoD1, D2: produtoD2 })
+        .values({ name, QNT, D1, D2 })
         .returning({ id: produtos.id })
 
       return reply.status(201).send({ produtoId: result[0].id })

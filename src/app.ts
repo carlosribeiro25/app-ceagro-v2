@@ -3,7 +3,7 @@ import { serializerCompiler, validatorCompiler, jsonSchemaTransform, type ZodTyp
 import { fastifySwagger } from '@fastify/swagger'
 import { fastifySwaggerUi } from '@fastify/swagger-ui'
 import { fastifyCors } from '@fastify/cors'
-import { router, routerDefaul } from './routes/routeDefault.js';
+import { router } from './routes/routeDefault.js';
 import { getProdutosById } from './routes/produtos/get-produtos-byID.js';
 import { postProdutos } from './routes/produtos/post-produto.js';
 import { patchProdutos } from './routes/produtos/patch-produtos.js';
@@ -82,7 +82,5 @@ server.register(listarUsers)
 server.register(getUsuariosById)
 server.register(putUsers)
 server.register(loginRoute)
-server.register(routerDefaul)
-
 
 export { server }

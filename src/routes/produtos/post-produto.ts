@@ -8,10 +8,10 @@ import { checkUseRole } from "../hooks/check_user_role.js";
 export const postProdutos: FastifyPluginAsyncZod = async (server) => {
 
   server.post('/produtos', {
-     preHandler: [
-          checkRequestJWT,
-          checkUseRole('Manager'),
-        ],
+    preHandler: [
+      checkRequestJWT,
+      checkUseRole('Manager'),
+    ],
     schema: {
       tags: ['Produtos'],
       additionalProperties: true,
@@ -22,15 +22,14 @@ export const postProdutos: FastifyPluginAsyncZod = async (server) => {
         D2: z.string(),
       }),
       response: {
-        201: z.object({ produtoId: z.int()}).describe('Produto criado com sucesso!'),
-        400: z.object({ error: z.string()}).describe('Erro ao cadastrar produto!')
+        201: z.object({ message: z.string(), produtoId: z.int() }).describe('Produto criado com sucesso!'),
+        400: z.object({ error: z.string() }).describe('Erro ao cadastrar produto!')
       }
     }
 
   }, async (request, reply) => {
 
-
-    const {name, QNT, D1, D2} = request.body
+    const { name, QNT, D1, D2 } = request.body
 
     try {
       const result = await db
@@ -38,7 +37,7 @@ export const postProdutos: FastifyPluginAsyncZod = async (server) => {
         .values({ name, QNT, D1, D2 })
         .returning({ id: produtos.id })
 
-      return reply.status(201).send({ produtoId: result[0].id })
+      return reply.status(201).send({ message: 'Produto criado com sucesso!', produtoId: result[0].id })
 
     } catch (error) {
       console.error('Erro ao cadastrar produto:', error)

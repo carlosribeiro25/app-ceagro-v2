@@ -7,10 +7,10 @@ import { checkRequestJWT } from "../hooks/check_request_jwt.js";
 export const listarProdutos: FastifyPluginAsyncZod = async (server) => {
 
     server.get('/produtos', {
-          preHandler: [
-                checkRequestJWT,
-                checkUseRole('Manager')
-                ],
+        preHandler: [
+            checkRequestJWT,
+            checkUseRole('Manager')
+        ],
         schema: {
             tags: ['Produtos'],
             summary: 'Essa rota lista todos os Produtos.',
@@ -18,14 +18,16 @@ export const listarProdutos: FastifyPluginAsyncZod = async (server) => {
     }, async (request, reply) => {
 
         const allProdutos = await db
-                .select()
-                .from(produtos)
-       
-        if(!allProdutos || allProdutos.length === 0){
-             return reply.status(404).send({ error: `Produtos não encontrados`})
+            .select()
+            .from(produtos)
+
+        if (!allProdutos || allProdutos.length === 0) {
+            return reply.status(404).send({ error: `Produtos não encontrados` })
         }
         return reply.status(200).send({ produtos: allProdutos }
 
-    )}
- )}
+        )
+    }
+    )
+}
 

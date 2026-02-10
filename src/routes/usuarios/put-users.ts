@@ -7,7 +7,6 @@ import { checkRequestJWT } from "../hooks/check_request_jwt.js";
 import { checkUseRole } from "../hooks/check_user_role.js";
 
 export const putUsers: FastifyPluginAsyncZod = async (server) => {
-
     server.put('/usuarios/:id', {
         preHandler: [
             checkRequestJWT,

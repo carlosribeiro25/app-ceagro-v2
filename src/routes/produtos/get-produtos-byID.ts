@@ -9,10 +9,10 @@ import { checkUseRole } from "../hooks/check_user_role.js";
 
 export async function getProdutosById(server: FastifyInstance) {
   server.get('/produtos/:id', {
-     preHandler: [
-            checkRequestJWT,
-            checkUseRole('Manager')
-          ],
+    preHandler: [
+      checkRequestJWT,
+      checkUseRole('Manager')
+    ],
     schema: {
       tags: ['Produtos'],
       params: z.object({
@@ -28,7 +28,7 @@ export async function getProdutosById(server: FastifyInstance) {
             D2: z.string(),
           })
         }),
-        404: z.object({ error: z.string()}).describe('Produto não encontrado!')
+        404: z.object({ error: z.string() }).describe('Produto não encontrado!')
       }
     }
   }, async (request, reply) => {
@@ -46,10 +46,10 @@ export async function getProdutosById(server: FastifyInstance) {
       .select()
       .from(produtos)
       .where(eq(produtos.id, produtoId))
-      
+
     if (!produto || produto.length === 0) {
-      return reply.status(404).send({error: "Produto não encontrado"})
+      return reply.status(404).send({ error: "Produto não encontrado" })
     }
-    return reply.status(200).send({ produto: produto[0]})
+    return reply.status(200).send({ produto: produto[0] })
   })
 }

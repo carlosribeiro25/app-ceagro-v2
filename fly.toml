@@ -1,12 +1,13 @@
-# fly.toml app configuration file generated for app-ceagro on 2026-02-10T02:08:09Z
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
+# fly.toml app configuration file
 app = 'app-ceagro'
 primary_region = 'gru'
 
 [build]
+  builder = "heroku/buildpacks:20"
+
+[env]
+  PORT = "8080"
+  NODE_ENV = "production"
 
 [http_service]
   internal_port = 8080
@@ -16,8 +17,14 @@ primary_region = 'gru'
   min_machines_running = 0
   processes = ['app']
 
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    timeout = "5s"
+    path = "/health"
+
 [[vm]]
-  memory = '1gb'
+  memory_mb = 256
   cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 2048

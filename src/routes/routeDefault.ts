@@ -1,7 +1,7 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 
 export const router: FastifyPluginAsyncZod = async (server) => {
-  server.get('/',{
+  server.get('/health',{
     schema: {
       tags: ['Produtos'],
     }

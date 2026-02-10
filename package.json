@@ -5,6 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "dev": "tsx watch --env-file .env src/server.ts",
     "db:seed": "tsx --env-file .env src/db/seed.ts",
     "start": "node dist/server.js",
@@ -16,6 +17,10 @@
     "pretest": "dotenv -e .env drizzle-kit migrate",
     "test": "dotenv -e .env vitest run "
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",

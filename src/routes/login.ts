@@ -58,8 +58,13 @@ export const loginRoute: FastifyPluginAsyncZod = async (server) => {
       throw new Error ('JWT_SECRET needs be set.')
     }
 
-    const token = jwt.sign({sub: user.id, role: user.role }, process.env.JWT_SECRET)
-
+    const token = jwt.sign(
+      {
+      sub: String(user.id),
+      role: user.role
+      },
+       process.env.JWT_SECRET)
+       
     return reply.status(200).send({token})
      
   })

@@ -48,7 +48,7 @@ export async function getProdutosById(server: FastifyInstance) {
       .where(eq(produtos.id, produtoId))
       
     if (!produto || produto.length === 0) {
-      return reply.status(404).send({error: "Not Found"})
+      return reply.status(404).send({error: "Produto não encontrado"})
     }
     return reply.status(200).send({ produto: produto[0]})
   })

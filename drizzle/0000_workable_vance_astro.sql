@@ -20,7 +20,7 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_email_unique" UNIQUE("email"),
 	CONSTRAINT "users_name_length_check" CHECK (length("users"."name") >= 4)
 );
-t
-CREATE INDEX "idx_produtos_name" ON "produtos" USING btree ("name");
-CREATE INDEX "idx_users_email" ON "users" USING btree ("email");
+--> statement-breakpoint
+CREATE INDEX "idx_produtos_name" ON "produtos" USING btree ("name");--> statement-breakpoint
+CREATE INDEX "idx_users_email" ON "users" USING btree ("email");--> statement-breakpoint
 CREATE INDEX "idx_users_role" ON "users" USING btree ("role");

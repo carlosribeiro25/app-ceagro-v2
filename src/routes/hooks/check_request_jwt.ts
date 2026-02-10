@@ -7,12 +7,18 @@ type JWTPayload = {
 }
 
 export async function checkRequestJWT(request:FastifyRequest, reply: FastifyReply) {
-    const token = request.headers.authorization
+    const authHeader = request.headers.authorization
 
-    if(!token){
-        return reply.status(401).send()
+    console.log('Header Authorization', authHeader)
+
+    if(!authHeader){
+        return reply.status(401).send({ error: 'Token não enviado' })
     }
     
+    const token = authHeader.replace('Bearer ', '')
+
+    console.log('Token extraido', token)
+
     if (!process.env.JWT_SECRET){
       throw new Error ('JWT_SECRET needs be set.')
     }
@@ -20,8 +26,12 @@ export async function checkRequestJWT(request:FastifyRequest, reply: FastifyRepl
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload
         request.user = payload
-    } catch {
-            return reply.status(401).send()
 
+        console.log('Usuário autenticado:', payload)
+
+    } catch (error) {
+        console.log(' Erro ao verificar token: ', error)
+        return reply.status(401).send()
     }
-}
+ }
+

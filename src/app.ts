@@ -32,18 +32,43 @@ server.register(fastifyCors, {
 server.register(fastifySwagger, {
   openapi: {
     info: {
-      title: 'Controle de compras',
-      description: 'Api de recebimento de mercadorias',
+      title: 'API de registro e recebimento de mercadorias',
+      description: 'API de gerenciamento de Mercadorias',
       version: '1.0.0'
     },
+    servers: [
+      {
+        url: '',
+        description: 'Produção'
+      },
+      {
+        url: 'http://localhost:3000',
+        description: 'Desenvolvimento'
+      }
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
+      }
+    }
   },
-
   transform: jsonSchemaTransform,
 })
 
 server.register(fastifySwaggerUi, {
-  routePrefix: '/docs'
+  routePrefix: '/docs',
+  uiConfig: {
+    docExpansion: 'list',
+    deepLinking: true
+  }, 
+  staticCSP: true
 })
+
+
 
 server.register(router)
 server.register(getProdutosById)

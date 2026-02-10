@@ -2,7 +2,7 @@ import fastify from "fastify";
 
 declare module 'fastify' {
     export interface FastifyRequest {
-        user: {
+        user?: {
             sub: string
             role: 'Manager' | 'Client'
         }

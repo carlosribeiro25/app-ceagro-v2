@@ -66,6 +66,7 @@ export const loginRoute: FastifyPluginAsyncZod = async (server) => {
        process.env.JWT_SECRET)
        
     return reply.status(200).send({token})
-     
+    
   })
+
 }

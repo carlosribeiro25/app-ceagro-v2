@@ -18,15 +18,20 @@ import { getUsuariosById } from './routes/usuarios/getUsersById.js';
 import { putUsers } from './routes/usuarios/put-users.js';
 import { loginRoute } from './routes/login.js';
 
-const server = fastify().withTypeProvider<ZodTypeProvider>()
+const server = fastify({logger: true }).withTypeProvider<ZodTypeProvider>()
 
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
 server.register(fastifyCors, {
-  origin: '*'
+  origin: [
+    'http://localhost:5173', 
+    'http://localhost:3000',
+  ],
 
-  // credentials: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 })
 
 server.register(fastifySwagger, {

@@ -30,7 +30,7 @@ server.register(fastifyCors, {
   ],
 
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEADERS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 })
 

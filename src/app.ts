@@ -18,7 +18,22 @@ import { getUsuariosById } from './routes/usuarios/getUsersById.js';
 import { putUsers } from './routes/usuarios/put-users.js';
 import { loginRoute } from './routes/login.js';
 
-const server = fastify({logger: true }).withTypeProvider<ZodTypeProvider>()
+const server = fastify({
+  logger: true,
+  requestTimeout: 30000,
+  keepAliveTimeout: 72000,
+  connectionTimeout: 10000,
+}).withTypeProvider<ZodTypeProvider>()
+
+const closeGracefully = async (signal: string) => {
+    console.log(`Received signal to terminate: ${signal}`);
+      await server.close();
+      process.exit(0);
+}
+
+process.on('SIGINT', () => closeGracefully('SIGINT'));
+process.on('SIGTERM', () => closeGracefully('SIGTERM'));
+
 
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)

@@ -23,9 +23,7 @@ export const patchProdutos = async (server) => {
                 D2: z.string(),
             }),
             response: {
-                200: z.object({ message: z.string(),
-                    produtos: z.any()
-                }).describe('Produto atualizado com sucesso!'),
+                200: z.object({ message: z.string(), produtos: z.any() }).describe('Produto atualizado com sucesso!'),
                 404: z.object({ error: z.string() }).describe('Produto não encontrado!')
             }
         }

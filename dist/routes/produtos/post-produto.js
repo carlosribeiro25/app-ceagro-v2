@@ -19,21 +19,18 @@ export const postProdutos = async (server) => {
                 D2: z.string(),
             }),
             response: {
-                201: z.object({ produtoId: z.int() }).describe('Produto criado com sucesso!'),
+                201: z.object({ message: z.string(), produtoId: z.int() }).describe('Produto criado com sucesso!'),
                 400: z.object({ error: z.string() }).describe('Erro ao cadastrar produto!')
             }
         }
     }, async (request, reply) => {
-        const produtoName = request.body.name;
-        const produtoQnt = request.body.QNT;
-        const produtoD1 = request.body.D1;
-        const produtoD2 = request.body.D2;
+        const { name, QNT, D1, D2 } = request.body;
         try {
             const result = await db
                 .insert(produtos)
-                .values({ name: produtoName, QNT: produtoQnt, D1: produtoD1, D2: produtoD2 })
+                .values({ name, QNT, D1, D2 })
                 .returning({ id: produtos.id });
-            return reply.status(201).send({ produtoId: result[0].id });
+            return reply.status(201).send({ message: 'Produto criado com sucesso!', produtoId: result[0].id });
         }
         catch (error) {
             console.error('Erro ao cadastrar produto:', error);

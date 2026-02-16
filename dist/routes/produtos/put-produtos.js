@@ -24,8 +24,7 @@ export const putProdutos = async (server) => {
                 D2: z.string(),
             }),
             response: {
-                200: z.object({ message: z.string(),
-                    produtos: z.any() }).describe("Produto atualizado com sucesso!"),
+                200: z.object({ message: z.string(), produtos: z.any() }).describe("Produto atualizado com sucesso!"),
                 404: z.object({ error: z.string() }).describe("Produto não encontrado!"),
             }
         }
@@ -39,7 +38,8 @@ export const putProdutos = async (server) => {
             .returning({ id: produtos.id, name: produtos.name, QNT: produtos.QNT, D1: produtos.D1, D2: produtos.D2 });
         if (!updated.length) {
             console.log(error);
-            return reply.status(404).send({ error: `Produto não encontrado`,
+            return reply.status(404).send({
+                error: `Produto não encontrado`,
             });
         }
         return reply.status(200).send({ message: "Produto atualizado com sucesso", produtos: updated[0] });

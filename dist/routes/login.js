@@ -2,7 +2,7 @@ import { db } from '../db/cliente.js';
 import { users } from '../db/schema.js';
 import { eq } from "drizzle-orm";
 import jwt from 'jsonwebtoken';
-import z from "zod";
+import { z } from "zod";
 import { verify } from "argon2";
 export const loginRoute = async (server) => {
     server.post('/login', {
@@ -10,7 +10,7 @@ export const loginRoute = async (server) => {
             tags: ['Auth'],
             additionalProperties: true,
             body: z.object({
-                email: z.string().email(),
+                email: z.email(),
                 password: z.string()
             }),
             response: {

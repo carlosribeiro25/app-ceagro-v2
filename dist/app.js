@@ -3,7 +3,7 @@ import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fast
 import { fastifySwagger } from '@fastify/swagger';
 import { fastifySwaggerUi } from '@fastify/swagger-ui';
 import { fastifyCors } from '@fastify/cors';
-import { router } from './routes/routeDefault.js';
+import { router, routerDefault } from './routes/routeDefault.js';
 import { getProdutosById } from './routes/produtos/get-produtos-byID.js';
 import { postProdutos } from './routes/produtos/post-produto.js';
 import { patchProdutos } from './routes/produtos/patch-produtos.js';
@@ -17,12 +17,31 @@ import { listarUsers } from './routes/usuarios/getUsers.js';
 import { getUsuariosById } from './routes/usuarios/getUsersById.js';
 import { putUsers } from './routes/usuarios/put-users.js';
 import { loginRoute } from './routes/login.js';
-const server = fastify().withTypeProvider();
+const server = fastify({
+    logger: true,
+    requestTimeout: 30000,
+    keepAliveTimeout: 72000,
+    connectionTimeout: 10000,
+}).withTypeProvider();
+const closeGracefully = async (signal) => {
+    console.log(`Received signal to terminate: ${signal}`);
+    await server.close();
+    process.exit(0);
+};
+process.on('SIGINT', () => closeGracefully('SIGINT'));
+process.on('SIGTERM', () => closeGracefully('SIGTERM'));
 server.setValidatorCompiler(validatorCompiler);
 server.setSerializerCompiler(serializerCompiler);
 server.register(fastifyCors, {
-    origin: '*'
-    // credentials: true,
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://localhost:5175',
+        'http://localhost:3000',
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEADERS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 });
 server.register(fastifySwagger, {
     openapi: {
@@ -33,7 +52,7 @@ server.register(fastifySwagger, {
         },
         servers: [
             {
-                url: '',
+                url: 'https://app-ceagro.fly.dev/',
                 description: 'Produção'
             },
             {
@@ -75,4 +94,5 @@ server.register(listarUsers);
 server.register(getUsuariosById);
 server.register(putUsers);
 server.register(loginRoute);
+server.register(routerDefault);
 export { server };

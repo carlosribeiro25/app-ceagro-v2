@@ -18,6 +18,7 @@ import { getUsuariosById } from './routes/usuarios/getUsersById.js';
 import { putUsers } from './routes/usuarios/put-users.js';
 import { loginRoute } from './routes/login.js';
 
+
 const server = fastify({
   logger: true,
   requestTimeout: 30000,

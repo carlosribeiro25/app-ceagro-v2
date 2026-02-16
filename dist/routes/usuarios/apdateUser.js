@@ -24,10 +24,7 @@ export const updateUser = async (server) => {
                 role: z.enum(['Manager', 'Client']).optional(),
             }),
             response: {
-                200: z.object({
-                    message: z.string(),
-                    users: z.any()
-                }).describe('Usuario atualizado com sucesso!'),
+                200: z.object({ message: z.string(), users: z.any() }).describe('Usuario atualizado com sucesso!'),
                 404: z.object({ error: z.string() }).describe('Usuário não encontrado!')
             }
         }

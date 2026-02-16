@@ -1,6 +1,6 @@
 // routes/health.ts
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { db } from '../db/cliente.js'; 
+import { db } from '../db/cliente'; 
 import { sql } from 'drizzle-orm';
 
 export const router: FastifyPluginAsyncZod = async (server) => {

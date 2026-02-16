@@ -9,6 +9,7 @@
     "dev": "tsx watch --env-file .env src/server.ts",
     "db:seed": "tsx --env-file .env src/db/seed.ts",
     "start": "node dist/server.js",
+    "deploy": "npm run build && npm run start",
     "format": "biome format --write",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
